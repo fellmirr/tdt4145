@@ -60,8 +60,8 @@ public class HomeFrame implements ActionListener {
 
         if (post != null) {
 //            Get post successfull
-//            new HomeFrame(userID);
             new ReplyFrame(post, userID);
+            postIdButton.setText("Get post");
             frame.setVisible(false);
             frame.dispose();
         } else {
