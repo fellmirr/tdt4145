@@ -17,6 +17,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class HomeFrame {
     private int userID;
+
     static JFrame frame = new JFrame("Piazza - Hjem");
 
     public HomeFrame(int userID) {
@@ -26,6 +27,7 @@ public class HomeFrame {
     }
 
     private void draw() {
+        //Exit application when frame closed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(null);

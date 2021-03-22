@@ -9,6 +9,11 @@ public class PostsDAO extends Database {
 
     public static PreparedStatement regStatement;
 
+    /**
+     * Fetches a post with a given ID from the database
+     * @param postId
+     * @return A Post object if found, null otherwise
+     */
     public static Post GetPost(int postId) {
         Database db = Database.getInstance();
         ResultSet result = db.query("SELECT * FROM Posts WHERE PostID = " + postId);
@@ -35,6 +40,13 @@ public class PostsDAO extends Database {
         }
     }
 
+    /**
+     * Inserts a post in the same Thread object as the post replied to to the database.
+     * @param post The post to reply to
+     * @param replyText The text of the reply
+     * @param userId The user id of the user replying
+     * @return Returns 1 if successfully replied, or 0 if not.
+     */
     public static int replyToPost(Post post, String replyText, int userId) {
         int response = 0;
         try {
@@ -47,7 +59,7 @@ public class PostsDAO extends Database {
             regStatement.execute();
             response = 1;
         } catch (Exception e) {
-            System.out.println("db error during prepare of insert into Reg");
+            System.out.println("db error during prepare of insert into Posts");
         }
         return response;
     }

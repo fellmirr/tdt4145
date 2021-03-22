@@ -29,6 +29,7 @@ public class ReplyFrame implements ActionListener {
     }
 
     public void draw() {
+        //Exit application when frame closed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(null);
