@@ -12,6 +12,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class HomeFrame implements ActionListener {
     private int userID;
+
     static JFrame frame = new JFrame("Piazza - Hjem");
 
     static JLabel userLabel = new JLabel();
@@ -26,6 +27,7 @@ public class HomeFrame implements ActionListener {
     }
 
     private void draw() {
+        //Exit application when frame closed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(null);
@@ -54,20 +56,23 @@ public class HomeFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        postIdButton.setText("Laster...");
+        // Action performed when button for replying is clicked
+        if (e.getSource() == postIdButton) {
+            postIdButton.setText("Laster...");
 
-        Post post = PostsBLO.GetPost(Integer.parseInt(postIdField.getText()));
+            Post post = PostsBLO.GetPost(Integer.parseInt(postIdField.getText()));
 
-        if (post != null) {
+            if (post != null) {
 //            Get post successfull
-            new ReplyFrame(post, userID);
-            postIdButton.setText("Get post");
-            frame.setVisible(false);
-            frame.dispose();
-        } else {
+                new ReplyFrame(post, userID);
+                postIdButton.setText("Get post");
+                frame.setVisible(false);
+                frame.dispose();
+            } else {
 //            Get post unsuccesfull
-            showMessageDialog(null, String.format("Could not find post with post id %s", postIdField.getText()));
-            postIdButton.setText("Get post");
+                showMessageDialog(null, String.format("Could not find post with post id %s", postIdField.getText()));
+                postIdButton.setText("Get post");
+            }
         }
     }
 }
