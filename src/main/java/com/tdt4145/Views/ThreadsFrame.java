@@ -2,8 +2,9 @@ package com.tdt4145.Views;
 
 import com.tdt4145.BLO.CoursesBLO;
 import com.tdt4145.BLO.PostsBLO;
-import com.tdt4145.Models.Course;
+import com.tdt4145.Models.Folder;
 import com.tdt4145.Models.Post;
+import com.tdt4145.Models.Thread;
 
 import javafx.scene.input.MouseEvent;
 
@@ -15,14 +16,17 @@ import java.util.List;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public class HomeFrame {
-    private int userID;
-    static JFrame frame = new JFrame("Piazza - Hjem");
+public class ThreadsFrame {
+    private int folderId;
+    private String courseName;
+    static JFrame frame = new JFrame("Piazza - ");
+    static JLabel courseLabel = new JLabel("");
 
-    public HomeFrame(int userID) {
-        this.userID = userID;
+    public ThreadsFrame(int folderId, String courseName) {
+        this.folderId = folderId;
+        this.courseName = courseName;
         draw();
-        populateCoursesList();
+        populateFolderList();
     }
 
     private void draw() {
@@ -30,7 +34,14 @@ public class HomeFrame {
         frame.setSize(600, 400);
         frame.setLayout(null);
 
+        //Configure components
+        courseLabel.setText(this.courseName);
+        courseLabel.setBounds(10,10, 480, 40);
+
+        frame.setTitle("Piazza - " + this.courseName);
+
         //Add components to frame
+        frame.add(courseLabel);
 
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);
@@ -38,28 +49,26 @@ public class HomeFrame {
         frame.setVisible(true);
     }
 
-    private void populateCoursesList() {
-        final DefaultListModel coursesModel = new DefaultListModel();
+    private void populateFolderList() {
+        final DefaultListModel threadsModel = new DefaultListModel();
 
-        List<Course> userCourses = CoursesBLO.GetCourses(userID);
+        List<Thread> folderThreads = CoursesBLO.GetThreads(this.folderId);
 
-        for (int i = 0; i < userCourses.size(); i++) {
-            coursesModel.addElement(userCourses.get(i).Name);
+        for (int i = 0; i < folderThreads.size(); i++) {
+            threadsModel.addElement(folderThreads.get(i).Name);
         }
 
-        final JList courseList = new JList(coursesModel);
-        courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        courseList.setVisibleRowCount(3);
+        final JList threadList = new JList(threadsModel);
+        threadList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        threadList.setVisibleRowCount(3);
 
-        courseList.addMouseListener(new MouseListener() {
+        threadList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     JList list = (JList)e.getSource();
                     int index = list.locationToIndex(e.getPoint());
-
-                    Course selectedCourse = userCourses.get(index);
-                    new FoldersFrame(selectedCourse.CourseID, selectedCourse.Name);
+                    System.out.println(folderThreads.get(index).Name);
                 }
             }
 
@@ -88,8 +97,8 @@ public class HomeFrame {
             }
         });
         
-        courseList.setBounds(10, 10, 580, 300);
+        threadList.setBounds(10, 60, 580, 300);
 
-        frame.add(courseList);
+        frame.add(threadList);
     }
 }

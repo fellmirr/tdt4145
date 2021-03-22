@@ -2,7 +2,7 @@ package com.tdt4145.Views;
 
 import com.tdt4145.BLO.CoursesBLO;
 import com.tdt4145.BLO.PostsBLO;
-import com.tdt4145.Models.Course;
+import com.tdt4145.Models.Folder;
 import com.tdt4145.Models.Post;
 
 import javafx.scene.input.MouseEvent;
@@ -15,14 +15,17 @@ import java.util.List;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public class HomeFrame {
-    private int userID;
-    static JFrame frame = new JFrame("Piazza - Hjem");
+public class FoldersFrame {
+    private int courseId;
+    private String courseName;
+    static JFrame frame = new JFrame("Piazza - ");
+    static JLabel courseLabel = new JLabel("");
 
-    public HomeFrame(int userID) {
-        this.userID = userID;
+    public FoldersFrame(int courseId, String courseName) {
+        this.courseId = courseId;
+        this.courseName = courseName;
         draw();
-        populateCoursesList();
+        populateFolderList();
     }
 
     private void draw() {
@@ -30,7 +33,14 @@ public class HomeFrame {
         frame.setSize(600, 400);
         frame.setLayout(null);
 
+        //Configure components
+        courseLabel.setText(this.courseName);
+        courseLabel.setBounds(10,10, 480, 40);
+
+        frame.setTitle("Piazza - " + this.courseName);
+
         //Add components to frame
+        frame.add(courseLabel);
 
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);
@@ -38,28 +48,28 @@ public class HomeFrame {
         frame.setVisible(true);
     }
 
-    private void populateCoursesList() {
-        final DefaultListModel coursesModel = new DefaultListModel();
+    private void populateFolderList() {
+        final DefaultListModel foldersModel = new DefaultListModel();
 
-        List<Course> userCourses = CoursesBLO.GetCourses(userID);
+        List<Folder> courseFolders = CoursesBLO.GetFolders(this.courseId);
 
-        for (int i = 0; i < userCourses.size(); i++) {
-            coursesModel.addElement(userCourses.get(i).Name);
+        for (int i = 0; i < courseFolders.size(); i++) {
+            foldersModel.addElement(courseFolders.get(i).Name);
         }
 
-        final JList courseList = new JList(coursesModel);
-        courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        courseList.setVisibleRowCount(3);
+        final JList folderList = new JList(foldersModel);
+        folderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        folderList.setVisibleRowCount(3);
 
-        courseList.addMouseListener(new MouseListener() {
+        folderList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     JList list = (JList)e.getSource();
                     int index = list.locationToIndex(e.getPoint());
-
-                    Course selectedCourse = userCourses.get(index);
-                    new FoldersFrame(selectedCourse.CourseID, selectedCourse.Name);
+                    
+                    Folder selectedFolder = courseFolders.get(index);
+                    new ThreadsFrame(selectedFolder.FolderID, selectedFolder.Name);
                 }
             }
 
@@ -88,8 +98,8 @@ public class HomeFrame {
             }
         });
         
-        courseList.setBounds(10, 10, 580, 300);
+        folderList.setBounds(10, 60, 580, 300);
 
-        frame.add(courseList);
+        frame.add(folderList);
     }
 }
