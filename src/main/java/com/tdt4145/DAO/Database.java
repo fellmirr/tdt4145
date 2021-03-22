@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class Database {
     private static Database dbObject;
-    private Connection conn;
+    protected static Connection conn;
     
-    private Database() {
+    public Database() {
         connect();
     }
 
