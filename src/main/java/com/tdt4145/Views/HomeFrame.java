@@ -1,19 +1,12 @@
 package com.tdt4145.Views;
 
 import com.tdt4145.BLO.CoursesBLO;
-import com.tdt4145.BLO.PostsBLO;
 import com.tdt4145.Models.Course;
-import com.tdt4145.Models.Post;
-
-import javafx.scene.input.MouseEvent;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import static javax.swing.JOptionPane.showMessageDialog;
 
 public class HomeFrame {
     private int userID;

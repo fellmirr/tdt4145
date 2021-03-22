@@ -3,9 +3,7 @@ package com.tdt4145.BLO;
 import java.util.List;
 
 import com.tdt4145.DAO.CoursesDAO;
-import com.tdt4145.DAO.PostsDAO;
 import com.tdt4145.Models.Course;
-import com.tdt4145.Models.Post;
 import com.tdt4145.Models.Folder;
 import com.tdt4145.Models.Thread;
 
