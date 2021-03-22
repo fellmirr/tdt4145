@@ -1,8 +1,6 @@
 package com.tdt4145.DAO;
 
 import com.tdt4145.Models.Post;
-import com.tdt4145.Models.User;
-import com.tdt4145.Models.UserRole;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
