@@ -1,7 +1,9 @@
 package com.tdt4145.Views;
 
 import com.tdt4145.BLO.PostsBLO;
+import com.tdt4145.BLO.StatisticsBLO;
 import com.tdt4145.Models.Post;
+import com.tdt4145.Models.StatisticsList;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -85,6 +87,19 @@ public class HomeFrame implements ActionListener {
         }
         if (e.getSource() == statisticsButton) {
             System.out.println("Statistikk-knapp fungerer!");
+            StatisticsList statistics = StatisticsBLO.GetStatistics();
+            Object[][] statisticsInput = changeToTableDataFormat(statistics);
+            new StatisticsFrame(statisticsInput);
         }
+    }
+
+    private Object[][] changeToTableDataFormat(StatisticsList statistics) {
+        Object[][] o = new Object[statistics.statistics.size()][3];
+        for (int i = 0; i < statistics.statistics.size(); i++) {
+            o[i][0] = statistics.statistics.get(i).Email;
+            o[i][1] = statistics.statistics.get(i).PostsViewed;
+            o[i][2] = statistics.statistics.get(i).PostsCreated;
+        }
+        return o;
     }
 }
