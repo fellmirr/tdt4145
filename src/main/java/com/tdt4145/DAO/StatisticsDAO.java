@@ -17,7 +17,8 @@ public class StatisticsDAO {
                 "COUNT(DISTINCT Posts.PostID) AS PostsCreated " +
                 "FROM	(Users LEFT OUTER JOIN UsersViewedPosts ON Users.UserID=UsersViewedPosts.UserID) " +
                 "LEFT OUTER JOIN Posts ON Users.UserID=Posts.UserID " +
-                "GROUP BY	Users.UserID ORDER BY PostsViewed DESC");
+                "GROUP BY	Users.UserID " +
+                "ORDER BY PostsViewed DESC");
         try {
             boolean next = result.next();
             while (next) {
