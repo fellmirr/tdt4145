@@ -47,7 +47,7 @@ public class PostsDAO extends Database {
      * @param userId The user id of the user replying
      * @return Returns 1 if successfully replied, or 0 if not.
      */
-    public static int replyToPost(Post post, String replyText, int userId) {
+    public static int ReplyToPost(Post post, String replyText, int userId) {
         int response = 0;
         try {
             regStatement = conn.prepareStatement("INSERT INTO Posts(UserID, ThreadID, TagID, Text) VALUES" +
@@ -60,6 +60,26 @@ public class PostsDAO extends Database {
             response = 1;
         } catch (Exception e) {
             System.out.println("db error during prepare of insert into Posts");
+        }
+        return response;
+    }
+
+    /**
+     * Updates a post to be "Answered".
+     * @param postId The post id replied to
+     * @return Returns 1 if successfully updated, or 0 if not.
+     */
+    public static int UpdatePostAsAnswered(int postId) {
+        int response = 0;
+        try {
+            regStatement = conn.prepareStatement("UPDATE Posts SET Answered = ? WHERE PostID = ?");
+            regStatement.setInt(1, 1);
+            regStatement.setInt(2, postId);
+            regStatement.executeUpdate();
+            response = 1;
+        } catch (Exception e) {
+            System.out.println("Failed to update post as answered");
+            response = 0;
         }
         return response;
     }

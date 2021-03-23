@@ -67,17 +67,15 @@ public class ReplyFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         postReplyButton.setText("Laster...");
-
-        int response = PostsBLO.ReplyToPost(this.post, postReplyTextArea.getText(), userID);
-
+        int response = PostsBLO.ReplyToPost(this.post, postReplyTextArea.getText(), userID); // Creates reply
+        response = PostsBLO.UpdatePostAsAnswered(this.post.PostID); // Updated replied post to be answered
         if (response == 1) {
-//            Get post successfull
-            System.out.println("Text successfully added to DB");
+//            Reply to post successful
             new HomeFrame(userID);
             frame.setVisible(false);
             frame.dispose();
         } else {
-//            Get post unsuccesfull
+//            Reply to post unsuccesful
             showMessageDialog(null, String.format("Could not find post with post id %s", postReplyTextArea.getText()));
             postReplyButton.setText("Reply");
         }
