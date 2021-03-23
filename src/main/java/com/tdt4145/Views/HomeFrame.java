@@ -1,7 +1,6 @@
 package com.tdt4145.Views;
 
 import com.tdt4145.BLO.PostsBLO;
-import com.tdt4145.BLO.UsersBLO;
 import com.tdt4145.Models.Post;
 
 import javax.swing.*;
@@ -19,7 +18,10 @@ public class HomeFrame implements ActionListener {
 
     static JLabel postIdLabel = new JLabel("Post Id:");
     static JTextField postIdField = new JTextField("");
-    static JButton postIdButton = new JButton("Get post");
+    static JButton postIdButton = new JButton("Get Post");
+
+    static JLabel statisticsLabel = new JLabel("Go to Statistics");
+    static JButton statisticsButton = new JButton("To Statistics");
 
     public HomeFrame(int userID) {
         this.userID = userID;
@@ -41,12 +43,19 @@ public class HomeFrame implements ActionListener {
         postIdButton.setBounds(300, 80, 200, 40);
         postIdButton.addActionListener(this);
 
+        statisticsLabel.setBounds(20, 140, 150, 40);
+        statisticsButton.setBounds(300, 140, 200, 40);
+        statisticsButton.addActionListener(this);
+
         //Add components to frame
         frame.add(userLabel);
 
         frame.add(postIdLabel);
         frame.add(postIdField);
         frame.add(postIdButton);
+
+        frame.add(statisticsLabel);
+        frame.add(statisticsButton);
 
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);
@@ -73,6 +82,9 @@ public class HomeFrame implements ActionListener {
                 showMessageDialog(null, String.format("Could not find post with post id %s", postIdField.getText()));
                 postIdButton.setText("Get post");
             }
+        }
+        if (e.getSource() == statisticsButton) {
+            System.out.println("Statistikk-knapp fungerer!");
         }
     }
 }
