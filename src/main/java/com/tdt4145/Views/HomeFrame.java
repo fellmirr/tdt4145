@@ -6,6 +6,7 @@ import com.tdt4145.BLO.UsersBLO;
 import com.tdt4145.Models.Post;
 import com.tdt4145.Models.StatisticsList;
 import com.tdt4145.Models.User;
+import com.tdt4145.Models.UserRole;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -49,11 +50,9 @@ public class HomeFrame implements ActionListener {
         postIdButton.setBounds(300, 80, 200, 40);
         postIdButton.addActionListener(this);
 
-        if (user.Role.getValue() == 2) {
-            statisticsLabel.setBounds(20, 140, 150, 40);
-            statisticsButton.setBounds(300, 140, 200, 40);
-            statisticsButton.addActionListener(this);
-        }
+        statisticsLabel.setBounds(20, 140, 150, 40);
+        statisticsButton.setBounds(300, 140, 200, 40);
+        statisticsButton.addActionListener(this);
 
         //Add components to frame
         frame.add(userLabel);
@@ -62,7 +61,7 @@ public class HomeFrame implements ActionListener {
         frame.add(postIdField);
         frame.add(postIdButton);
 
-        if (user.Role.getValue() == 2) {
+        if (user.Role.getValue() == UserRole.Instructor.getValue()) {
             frame.add(statisticsLabel);
             frame.add(statisticsButton);
         }
