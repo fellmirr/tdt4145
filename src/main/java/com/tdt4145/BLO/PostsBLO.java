@@ -24,6 +24,11 @@ public class PostsBLO {
         return PostsDAO.ReplyToPost(post, replyText, userId);
     }
 
+    /**
+     * Updates a post to be "Answered".
+     * @param postId The post id replied to
+     * @return Returns 1 if successfully updated, or 0 if not.
+     */
     public static int UpdatePostAsAnswered(int postId) {
         return PostsDAO.UpdatePostAsAnswered(postId);
     }

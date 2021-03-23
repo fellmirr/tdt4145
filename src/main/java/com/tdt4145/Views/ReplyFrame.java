@@ -67,9 +67,8 @@ public class ReplyFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         postReplyButton.setText("Laster...");
-
-        int response = PostsBLO.ReplyToPost(this.post, postReplyTextArea.getText(), userID);
-        response = PostsBLO.UpdatePostAsAnswered(this.post.PostID);
+        int response = PostsBLO.ReplyToPost(this.post, postReplyTextArea.getText(), userID); // Creates reply
+        response = PostsBLO.UpdatePostAsAnswered(this.post.PostID); // Updated replied post to be answered
         if (response == 1) {
 //            Reply to post successful
             new HomeFrame(userID);
