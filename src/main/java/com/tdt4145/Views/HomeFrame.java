@@ -61,6 +61,7 @@ public class HomeFrame implements ActionListener {
         frame.add(postIdField);
         frame.add(postIdButton);
 
+        // Only shows Statistics if user is Instructor
         if (user.Role.getValue() == UserRole.Instructor.getValue()) {
             frame.add(statisticsLabel);
             frame.add(statisticsButton);
