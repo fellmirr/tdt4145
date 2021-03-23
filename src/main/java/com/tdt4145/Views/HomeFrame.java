@@ -2,8 +2,10 @@ package com.tdt4145.Views;
 
 import com.tdt4145.BLO.PostsBLO;
 import com.tdt4145.BLO.StatisticsBLO;
+import com.tdt4145.BLO.UsersBLO;
 import com.tdt4145.Models.Post;
 import com.tdt4145.Models.StatisticsList;
+import com.tdt4145.Models.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +15,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class HomeFrame implements ActionListener {
     private int userID;
+    private User user;
 
     static JFrame frame = new JFrame("Piazza - Hjem");
 
@@ -27,6 +30,7 @@ public class HomeFrame implements ActionListener {
 
     public HomeFrame(int userID) {
         this.userID = userID;
+        this.user = UsersBLO.GetUser(userID);
         draw();
     }
 
@@ -45,9 +49,11 @@ public class HomeFrame implements ActionListener {
         postIdButton.setBounds(300, 80, 200, 40);
         postIdButton.addActionListener(this);
 
-        statisticsLabel.setBounds(20, 140, 150, 40);
-        statisticsButton.setBounds(300, 140, 200, 40);
-        statisticsButton.addActionListener(this);
+        if (user.Role.getValue() == 2) {
+            statisticsLabel.setBounds(20, 140, 150, 40);
+            statisticsButton.setBounds(300, 140, 200, 40);
+            statisticsButton.addActionListener(this);
+        }
 
         //Add components to frame
         frame.add(userLabel);
@@ -56,9 +62,10 @@ public class HomeFrame implements ActionListener {
         frame.add(postIdField);
         frame.add(postIdButton);
 
-        frame.add(statisticsLabel);
-        frame.add(statisticsButton);
-
+        if (user.Role.getValue() == 2) {
+            frame.add(statisticsLabel);
+            frame.add(statisticsButton);
+        }
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);
 
@@ -95,6 +102,7 @@ public class HomeFrame implements ActionListener {
 
     /**
      * Converts a StatisticsList to an Object[][] to be used in a JTable in StatisticsFrame
+     *
      * @param statistics StatisticsList to convert to an Object[][]
      * @return An Object[][] of the statistics
      */
