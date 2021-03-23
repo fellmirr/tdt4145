@@ -39,10 +39,11 @@ public class StatisticsFrame {
         statisticsTable.setModel(model);
         statisticsTable.setFillsViewportHeight(true);
 
-
+        //Add components to frame
         frame.add(statisticsTable.getTableHeader(), BorderLayout.PAGE_START);
         frame.add(statisticsTable, BorderLayout.CENTER);
 
+        //Set frame to center of screen
         frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);

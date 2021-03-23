@@ -85,14 +85,19 @@ public class HomeFrame implements ActionListener {
                 postIdButton.setText("Get post");
             }
         }
+        // Action performed when statistics button is clicked
         if (e.getSource() == statisticsButton) {
-            System.out.println("Statistikk-knapp fungerer!");
             StatisticsList statistics = StatisticsBLO.GetStatistics();
             Object[][] statisticsInput = changeToTableDataFormat(statistics);
             new StatisticsFrame(statisticsInput);
         }
     }
 
+    /**
+     * Converts a StatisticsList to an Object[][] to be used in a JTable in StatisticsFrame
+     * @param statistics StatisticsList to convert to an Object[][]
+     * @return An Object[][] of the statistics
+     */
     private Object[][] changeToTableDataFormat(StatisticsList statistics) {
         Object[][] o = new Object[statistics.statistics.size()][3];
         for (int i = 0; i < statistics.statistics.size(); i++) {
