@@ -2,8 +2,11 @@ package com.tdt4145.Views;
 
 import com.tdt4145.BLO.PostsBLO;
 import com.tdt4145.BLO.StatisticsBLO;
+import com.tdt4145.BLO.UsersBLO;
 import com.tdt4145.Models.Post;
 import com.tdt4145.Models.StatisticsList;
+import com.tdt4145.Models.User;
+import com.tdt4145.Models.UserRole;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +16,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class HomeFrame implements ActionListener {
     private int userID;
+    private User user;
 
     static JFrame frame = new JFrame("Piazza - Hjem");
 
@@ -27,6 +31,7 @@ public class HomeFrame implements ActionListener {
 
     public HomeFrame(int userID) {
         this.userID = userID;
+        this.user = UsersBLO.GetUser(userID);
         draw();
     }
 
@@ -56,9 +61,10 @@ public class HomeFrame implements ActionListener {
         frame.add(postIdField);
         frame.add(postIdButton);
 
-        frame.add(statisticsLabel);
-        frame.add(statisticsButton);
-
+        if (user.Role.getValue() == UserRole.Instructor.getValue()) {
+            frame.add(statisticsLabel);
+            frame.add(statisticsButton);
+        }
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);
 
@@ -95,6 +101,7 @@ public class HomeFrame implements ActionListener {
 
     /**
      * Converts a StatisticsList to an Object[][] to be used in a JTable in StatisticsFrame
+     *
      * @param statistics StatisticsList to convert to an Object[][]
      * @return An Object[][] of the statistics
      */
