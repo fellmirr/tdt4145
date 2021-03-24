@@ -1,5 +1,4 @@
 package com.tdt4145;
-import com.tdt4145.DAO.*;
 import com.tdt4145.Views.LoginFrame;
 
 /**
