@@ -1,5 +1,4 @@
 package com.tdt4145.Models;
-//import java.util.Date;
 
 public class Folder {
     public int FolderID;
@@ -13,4 +12,7 @@ public class Folder {
 
     }
     
+    public int getId() {
+        return FolderID;
+    }
 }

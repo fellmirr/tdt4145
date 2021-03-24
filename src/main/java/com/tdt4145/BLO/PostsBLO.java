@@ -1,5 +1,7 @@
 package com.tdt4145.BLO;
 
+import java.util.List;
+
 import com.tdt4145.DAO.FoldersDAO;
 import com.tdt4145.DAO.PostsDAO;
 import com.tdt4145.DAO.TagDAO;
@@ -26,6 +28,24 @@ public class PostsBLO {
     public static int ReplyToPost(Post post, String replyText, int userId) {
         return PostsDAO.addPost(post.ThreadID, post.TagID, replyText, userId);
     }
+
+    /**
+     * Updates a post to be "Answered".
+     * @param postId The post id replied to
+     * @return Returns 1 if successfully updated, or 0 if not.
+     */
+    public static int UpdatePostAsAnswered(int postId) {
+        return PostsDAO.UpdatePostAsAnswered(postId);
+    }
+
+    /**
+     * Searches for posts with text matching the query
+     * @param searchString
+     * @return Returns a list of maximum 10 posts found matching the query
+     */
+    public static List<Post> searchPosts(String searchString) {
+        return PostsDAO.searchPosts(searchString);
+    }
     
     /**
      * Creates a post and a thread
@@ -46,5 +66,4 @@ public class PostsBLO {
         }
         return false;
     }
-
 }
