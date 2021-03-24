@@ -23,7 +23,16 @@ public class PostsBLO {
      * @return Returns 1 if successfully replied, or 0 if not.
      */
     public static int ReplyToPost(Post post, String replyText, int userId) {
-        return PostsDAO.replyToPost(post, replyText, userId);
+        return PostsDAO.ReplyToPost(post, replyText, userId);
+    }
+
+    /**
+     * Updates a post to be "Answered".
+     * @param postId The post id replied to
+     * @return Returns 1 if successfully updated, or 0 if not.
+     */
+    public static int UpdatePostAsAnswered(int postId) {
+        return PostsDAO.UpdatePostAsAnswered(postId);
     }
 
     /**

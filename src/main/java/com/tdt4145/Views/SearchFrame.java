@@ -14,6 +14,9 @@ public class SearchFrame {
     static JTextField searchInput = new JTextField("");
     static JButton searchButton = new JButton("Search");
 
+    DefaultListModel<String> resultsModel = new DefaultListModel<String>();
+    JList<String> searchResultList = new JList<String>(resultsModel);
+
     public SearchFrame(int userId) {
         draw();
     }
@@ -24,8 +27,8 @@ public class SearchFrame {
         frame.setLayout(null);
 
         //Configure components
-        searchInput.setBounds(10,10, 480, 40);
-        searchButton.setBounds(10, 500, 40, 60);
+        searchInput.setBounds(10,10, 450, 40);
+        searchButton.setBounds(470, 10, 120, 40);
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -33,9 +36,13 @@ public class SearchFrame {
             }
         });
 
+        searchResultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        searchResultList.setBounds(10, 60, 580, 300);
+
         //Add components to frame
         frame.add(searchInput);
         frame.add(searchButton);
+        frame.add(searchResultList);
 
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);
@@ -44,20 +51,16 @@ public class SearchFrame {
     }
 
     private void search() {
-        final DefaultListModel<String> resultsModel = new DefaultListModel<String>();
-
+        resultsModel.clear();
         List<Post> searchResult = PostsBLO.searchPosts(searchInput.getText());
 
         for (int i = 0; i < searchResult.size(); i++) {
             resultsModel.addElement(String.format("%s", searchResult.get(i).PostID));
         }
 
-        final JList<String> searchResultList = new JList<String>(resultsModel);
-        searchResultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        searchResultList.setVisibleRowCount(3);
+        if (searchResult.size() == 0)
+            resultsModel.addElement("No results");
         
-        searchResultList.setBounds(10, 60, 580, 300);
-
-        frame.add(searchResultList);
+        searchResultList.setVisibleRowCount(searchResult.size());
     }
 }

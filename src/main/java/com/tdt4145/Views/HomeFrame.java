@@ -2,6 +2,12 @@ package com.tdt4145.Views;
 
 import com.tdt4145.BLO.CoursesBLO;
 import com.tdt4145.Models.Course;
+import com.tdt4145.Models.Folder;
+import com.tdt4145.BLO.StatisticsBLO;
+import com.tdt4145.BLO.UsersBLO;
+import com.tdt4145.Models.StatisticsList;
+import com.tdt4145.Models.User;
+import com.tdt4145.Models.UserRole;
 
 import javax.swing.*;
 
@@ -12,14 +18,28 @@ import java.util.List;
 
 public class HomeFrame {
     private int userID;
+    private User user;
+    private DefaultListModel<String> listModel = new DefaultListModel<String>();
+
+    private JList<String> mainList = new JList<String>(listModel);
 
     static JFrame frame = new JFrame("Piazza - Hjem");
     static JButton searchButton = new JButton("Search");
 
+    static JLabel userLabel = new JLabel();
+
+    static JLabel postIdLabel = new JLabel("Post Id:");
+    static JTextField postIdField = new JTextField("");
+    static JButton postIdButton = new JButton("Get Post");
+
+    static JButton statisticsButton = new JButton("Statistics");
+
     public HomeFrame(int userID) {
         this.userID = userID;
+        this.user = UsersBLO.GetUser(userID);
         draw();
-        populateCoursesList();
+        initializeList();
+        setListCourses();
     }
 
     private void draw() {
@@ -29,7 +49,7 @@ public class HomeFrame {
         frame.setLayout(null);
 
         //Configure components
-        searchButton.setBounds(10, 400, 120, 30);
+        searchButton.setBounds(10, 310, 120, 36);
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,8 +57,19 @@ public class HomeFrame {
             }
         });
 
+        statisticsButton.setBounds(140, 310, 120, 36);
+        statisticsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new StatisticsFrame();
+            }
+        });
+
         //Add components to frame
         frame.add(searchButton);
+        if (user.Role == UserRole.Instructor) {
+            frame.add(statisticsButton);
+        }
 
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);
@@ -46,60 +77,53 @@ public class HomeFrame {
         frame.setVisible(true);
     }
 
-    private void populateCoursesList() {
-        final DefaultListModel<String> coursesModel = new DefaultListModel<String>();
-
-        List<Course> userCourses = CoursesBLO.GetCourses(userID);
-
-        for (int i = 0; i < userCourses.size(); i++) {
-            coursesModel.addElement(userCourses.get(i).Name);
-        }
-
-        final JList<String> courseList = new JList<String>(coursesModel);
-        courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        courseList.setVisibleRowCount(3);
-
-        courseList.addMouseListener(new MouseListener() {
+    private void initializeList() {
+        mainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        mainList.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    JList<String> list = (JList<String>)e.getSource();
-                    int index = list.locationToIndex(e.getPoint());
-
-                    Course selectedCourse = userCourses.get(index);
-                    new FoldersFrame(selectedCourse.CourseID, selectedCourse.Name);
-                    //frame.setVisible(false); 
-                    //frame.dispose();
+                    int index = mainList.locationToIndex(e.getPoint());
+                    System.out.println(index);
+                    setListFolders(1);
                 }
             }
 
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
+            public void mouseEntered(java.awt.event.MouseEvent e) {}
 
             @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
+            public void mouseExited(java.awt.event.MouseEvent e) {}
 
             @Override
-            public void mousePressed(java.awt.event.MouseEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
+            public void mousePressed(java.awt.event.MouseEvent e) {}
 
             @Override
-            public void mouseReleased(java.awt.event.MouseEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
+            public void mouseReleased(java.awt.event.MouseEvent e) {}
         });
-        
-        courseList.setBounds(10, 10, 580, 300);
+        mainList.setBounds(10, 42, 580, 260);
+        frame.add(mainList);
+    }
 
-        frame.add(courseList);
+    private void setListCourses() {
+        listModel.clear();
+        List<Course> userCourses = CoursesBLO.GetCourses(userID);
+
+        for (int i = 0; i < userCourses.size(); i++) {
+            listModel.addElement(userCourses.get(i).Name);
+        }
+
+        mainList.setVisibleRowCount(userCourses.size());
+    }
+
+    private void setListFolders(int courseId) {
+        listModel.clear();
+        List<Folder> courseFolders = CoursesBLO.GetFolders(courseId);
+
+        for (int i = 0; i < courseFolders.size(); i++) {
+            listModel.addElement(courseFolders.get(i).Name);
+        }
+
+        mainList.setVisibleRowCount(courseFolders.size());
     }
 }
