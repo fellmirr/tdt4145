@@ -1,5 +1,7 @@
 package com.tdt4145.BLO;
 
+import java.util.List;
+
 import com.tdt4145.DAO.PostsDAO;
 import com.tdt4145.Models.Post;
 
@@ -22,5 +24,14 @@ public class PostsBLO {
      */
     public static int ReplyToPost(Post post, String replyText, int userId) {
         return PostsDAO.replyToPost(post, replyText, userId);
+    }
+
+    /**
+     * Searches for posts with text matching the query
+     * @param searchString
+     * @return Returns a list of maximum 10 posts found matching the query
+     */
+    public static List<Post> searchPosts(String searchString) {
+        return PostsDAO.searchPosts(searchString);
     }
 }

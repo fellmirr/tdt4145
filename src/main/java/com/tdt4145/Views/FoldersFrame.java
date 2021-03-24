@@ -20,7 +20,7 @@ public class FoldersFrame {
     }
 
     private void draw() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(null);
 
@@ -61,6 +61,8 @@ public class FoldersFrame {
                     
                     Folder selectedFolder = courseFolders.get(index);
                     new ThreadsFrame(selectedFolder.FolderID, selectedFolder.Name);
+                    frame.setVisible(false); 
+                    frame.dispose();
                 }
             }
 

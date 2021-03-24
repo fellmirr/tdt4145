@@ -21,7 +21,7 @@ public class ThreadsFrame {
     }
 
     private void draw() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(null);
 
