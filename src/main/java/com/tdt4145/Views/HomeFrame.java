@@ -3,9 +3,7 @@ package com.tdt4145.Views;
 import com.tdt4145.BLO.CoursesBLO;
 import com.tdt4145.Models.Course;
 import com.tdt4145.Models.Folder;
-import com.tdt4145.BLO.StatisticsBLO;
 import com.tdt4145.BLO.UsersBLO;
-import com.tdt4145.Models.StatisticsList;
 import com.tdt4145.Models.User;
 import com.tdt4145.Models.UserRole;
 
