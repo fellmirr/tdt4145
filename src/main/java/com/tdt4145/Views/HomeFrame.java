@@ -21,6 +21,8 @@ public class HomeFrame implements ActionListener {
     static JTextField postIdField = new JTextField("");
     static JButton postIdButton = new JButton("Get post");
 
+    static JButton addPostButton = new JButton("Add post");
+
     public HomeFrame(int userID) {
         this.userID = userID;
         draw();
@@ -41,12 +43,22 @@ public class HomeFrame implements ActionListener {
         postIdButton.setBounds(300, 80, 200, 40);
         postIdButton.addActionListener(this);
 
+        addPostButton.setBounds(20, 120, 200, 40);
+        addPostButton.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PostsBLO.MakePost("Question", userID, "Dette er en tekst.", "Exam", "Starter en thread");
+                
+            }});
+
         //Add components to frame
         frame.add(userLabel);
 
         frame.add(postIdLabel);
         frame.add(postIdField);
         frame.add(postIdButton);
+        frame.add(addPostButton);
 
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);

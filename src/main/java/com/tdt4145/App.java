@@ -1,5 +1,5 @@
 package com.tdt4145;
-
+import com.tdt4145.DAO.*;
 import com.tdt4145.Views.LoginFrame;
 
 /**
@@ -14,6 +14,8 @@ public final class App {
      * @param args The arguments of the program.
      */
     public static void main(String[] args) {
+
         new LoginFrame();
     }
 }
+

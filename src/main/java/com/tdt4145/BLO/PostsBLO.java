@@ -1,6 +1,9 @@
 package com.tdt4145.BLO;
 
+import com.tdt4145.DAO.FoldersDAO;
 import com.tdt4145.DAO.PostsDAO;
+import com.tdt4145.DAO.TagDAO;
+import com.tdt4145.DAO.ThreadsDAO;
 import com.tdt4145.Models.Post;
 
 public class PostsBLO {
@@ -21,6 +24,27 @@ public class PostsBLO {
      * @return Returns 1 if successfully replied, or 0 if not.
      */
     public static int ReplyToPost(Post post, String replyText, int userId) {
-        return PostsDAO.replyToPost(post, replyText, userId);
+        return PostsDAO.addPost(post.ThreadID, post.TagID, replyText, userId);
     }
+    
+    /**
+     * Creates a post and a thread
+     * @param tagName Tag of the post
+     * @param userID ID of the author of the post
+     * @param text Text in the post
+     * @param folderName Name of the folder the post belongs to
+     * @param threadName Name of the thread 
+     * @return true if successfull, false if it fails
+     */
+    public static boolean MakePost(String tagName,int userID, String text, String folderName, String threadName){
+        int folderID = FoldersDAO.getFolderID(folderName);
+        int threadID = ThreadsDAO.addThread(threadName, folderID);
+        int tagID = TagDAO.getTagID(tagName);
+        int result = PostsDAO.addPost(threadID, tagID, text, userID);
+        if(result == 1){
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -2,8 +2,15 @@ package com.tdt4145.DAO;
 
 import com.tdt4145.Models.Post;
 
+import org.omg.PortableServer.ThreadPolicyOperations;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Random;
+
+import java.sql.Date;
 
 public class PostsDAO extends Database {
 
@@ -14,7 +21,7 @@ public class PostsDAO extends Database {
      * @param postId
      * @return A Post object if found, null otherwise
      */
-    public static Post GetPost(int postId) {
+     public static Post GetPost(int postId) {
         Database db = Database.getInstance();
         ResultSet result = db.query("SELECT * FROM Posts WHERE PostID = " + postId);
         try {
@@ -41,21 +48,22 @@ public class PostsDAO extends Database {
     }
 
     /**
-     * Inserts a post in the same Thread object as the post replied to to the database.
-     * @param post The post to reply to
-     * @param replyText The text of the reply
-     * @param userId The user id of the user replying
+     * Inserts a post into the database
+     * @param threadID Thread the post belongs to
+     * @param tagId Tag of the post
+     * @param text The text of the post
+     * @param userId The user id of the post author
      * @return Returns 1 if successfully replied, or 0 if not.
      */
-    public static int replyToPost(Post post, String replyText, int userId) {
+    public static int addPost(int threadID, int tagID, String text, int userId) {
         int response = 0;
         try {
             regStatement = conn.prepareStatement("INSERT INTO Posts(UserID, ThreadID, TagID, Text) VALUES" +
                     " ( (?), (?), (?), (?))");
-            regStatement.setInt (1, userId);
-            regStatement.setInt   (2, post.ThreadID);
-            regStatement.setInt(3, post.TagID);
-            regStatement.setString    (4, replyText);
+            regStatement.setInt(1, userId);
+            regStatement.setInt(2,threadID);
+            regStatement.setInt(3,tagID);
+            regStatement.setString(4, text);
             regStatement.execute();
             response = 1;
         } catch (Exception e) {
@@ -64,3 +72,6 @@ public class PostsDAO extends Database {
         return response;
     }
 }
+
+
+
