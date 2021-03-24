@@ -30,13 +30,14 @@ public class CoursesDAO extends Database {
 
     public static List<Folder> GetFolders(int courseId) {
         Database db = Database.getInstance();
-        ResultSet result = db.query("SELECT FolderID, FolderName FROM Folders WHERE CourseID = " + courseId);
+        ResultSet result = db.query("SELECT FolderID, CourseID, FolderName FROM Folders WHERE CourseID = " + courseId);
         try {
             List<Folder> folders = new ArrayList<Folder>();
 
             while(result.next()) {
                 folders.add(new Folder(
                     result.getInt("FolderID"),
+                    result.getInt("CourseID"),
                     result.getString("FolderName")));
             }
 

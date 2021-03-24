@@ -57,6 +57,8 @@ public class HomeFrame {
     static JLabel activeFolderBreadcrumb = new JLabel("");
     
 
+    static JButton addPostButton = new JButton("Add post");
+
     public HomeFrame(int userID) {
         this.userID = userID;
         this.user = UsersBLO.GetUser(userID);
@@ -195,6 +197,7 @@ public class HomeFrame {
             activeFolderBreadcrumb.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             updateBreadcrumb();
 
+
         //Add components to frame
         frame.add(searchButton);
         if (user.Role == UserRole.Instructor) {
@@ -281,7 +284,7 @@ public class HomeFrame {
         List<Folder> courseFolders = CoursesBLO.GetFolders(courseId);
 
         for (int i = 0; i < courseFolders.size(); i++) {
-            listModel.addElement(courseFolders.get(i).Name);
+            listModel.addElement(courseFolders.get(i).FolderName);
         }
 
         listIds = courseFolders
