@@ -8,4 +8,8 @@ public class Folder {
         this.FolderID = folderId;
         this.Name = name;
     }
+
+    public int getId() {
+        return FolderID;
+    }
 }

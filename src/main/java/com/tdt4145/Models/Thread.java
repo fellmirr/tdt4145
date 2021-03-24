@@ -9,4 +9,8 @@ public class Thread {
         this.ThreadID = threadId;
         this.Name = name;
     }
+
+    public int getId() {
+        return ThreadID;
+    }
 }

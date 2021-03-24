@@ -3,34 +3,59 @@ package com.tdt4145.Views;
 import com.tdt4145.BLO.CoursesBLO;
 import com.tdt4145.Models.Course;
 import com.tdt4145.Models.Folder;
+import com.tdt4145.Models.ListMode;
 import com.tdt4145.BLO.UsersBLO;
 import com.tdt4145.Models.User;
 import com.tdt4145.Models.UserRole;
 
+import java.awt.Cursor;
+
+import com.tdt4145.Models.Thread;
+
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomeFrame {
     private int userID;
     private User user;
-    private DefaultListModel<String> listModel = new DefaultListModel<String>();
+    
+    static JFrame frame = new JFrame("Piazza - Hjem");
 
+    /**
+     * Main menu buttons
+     */
+    static JButton searchButton = new JButton("Search");
+    static JButton statisticsButton = new JButton("Statistics");
+
+    /**
+     * Main list
+     */
+    private DefaultListModel<String> listModel = new DefaultListModel<String>();
+    private ListMode listMode = ListMode.COURSES;
+    private List<Integer> listIds;
     private JList<String> mainList = new JList<String>(listModel);
 
-    static JFrame frame = new JFrame("Piazza - Hjem");
-    static JButton searchButton = new JButton("Search");
+    /**
+     * Breadcrumb related stuff
+     */
 
-    static JLabel userLabel = new JLabel();
-
-    static JLabel postIdLabel = new JLabel("Post Id:");
-    static JTextField postIdField = new JTextField("");
-    static JButton postIdButton = new JButton("Get Post");
-
-    static JButton statisticsButton = new JButton("Statistics");
+    private int activeCourseID = -1;
+    private int activeFolderID = -1;
+    private String activeCourseName = null;
+    private String activeFolderName = null;
+    static JLabel breadCrumbTop = new JLabel("Courses");
+    static JLabel breadCrumbCourseArrow = new JLabel(">");
+    static JLabel activeCourseBreadcrumb = new JLabel("");
+    static JLabel breadCrumbFolderArrow = new JLabel(">");
+    static JLabel activeFolderBreadcrumb = new JLabel("");
+    
 
     public HomeFrame(int userID) {
         this.userID = userID;
@@ -63,11 +88,125 @@ public class HomeFrame {
             }
         });
 
+            //Breadcrumbs
+            breadCrumbTop.setBounds(10, 4, 55, 34);
+            breadCrumbTop.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            breadCrumbTop.addMouseListener(new MouseInputListener(){
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    activeCourseID = -1;
+                    activeFolderID = -1;
+                    activeCourseName = null;
+                    activeFolderName = null;
+                    setListCourses();
+                    updateBreadcrumb();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                
+            });
+            breadCrumbCourseArrow.setBounds(75, 4, 10, 34);
+            activeCourseBreadcrumb.setBounds(95, 4, 120, 34);
+            activeCourseBreadcrumb.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            activeCourseBreadcrumb.addMouseListener(new MouseInputListener(){
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    activeFolderID = -1;
+                    activeFolderName = null;
+                    setListFolders(activeCourseID);
+                    updateBreadcrumb();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mouseDragged(MouseEvent arg0) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
+                @Override
+                public void mouseMoved(MouseEvent arg0) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                
+            });
+            breadCrumbFolderArrow.setBounds(225, 4, 10, 34);
+            activeFolderBreadcrumb.setBounds(245, 4, 120, 34);
+            activeFolderBreadcrumb.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            updateBreadcrumb();
+
         //Add components to frame
         frame.add(searchButton);
         if (user.Role == UserRole.Instructor) {
             frame.add(statisticsButton);
         }
+
+            //Breadcrumbs
+            frame.add(breadCrumbTop);
+            frame.add(breadCrumbCourseArrow);
+            frame.add(activeCourseBreadcrumb);
+            frame.add(breadCrumbFolderArrow);
+            frame.add(activeFolderBreadcrumb);
 
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);
@@ -82,8 +221,24 @@ public class HomeFrame {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     int index = mainList.locationToIndex(e.getPoint());
-                    System.out.println(index);
-                    setListFolders(1);
+                    
+                    switch (listMode) {
+                        case COURSES:
+                            activeCourseName = listModel.get(index);
+                            setListFolders(listIds.get(index));
+                            updateBreadcrumb();
+                            break;
+                        case FOLDERS:
+                            activeFolderName = listModel.get(index);
+                            setListThreads(listIds.get(index));
+                            updateBreadcrumb();
+                            break;
+                        case THREADS:
+                            //TODO: Open thread frame
+                            break;
+                        default:
+                            System.out.println("Unrecognized list mode");
+                    }
                 }
             }
 
@@ -111,7 +266,14 @@ public class HomeFrame {
             listModel.addElement(userCourses.get(i).Name);
         }
 
+        listIds = userCourses
+            .stream()
+            .map(Course::getId)
+            .collect(Collectors.toList());
+
         mainList.setVisibleRowCount(userCourses.size());
+
+        listMode = ListMode.COURSES;
     }
 
     private void setListFolders(int courseId) {
@@ -122,6 +284,53 @@ public class HomeFrame {
             listModel.addElement(courseFolders.get(i).Name);
         }
 
+        listIds = courseFolders
+            .stream()
+            .map(Folder::getId)
+            .collect(Collectors.toList());
+
         mainList.setVisibleRowCount(courseFolders.size());
+
+        listMode = ListMode.FOLDERS;
+        activeCourseID = courseId;
+    }
+
+    private void setListThreads(int folderId) {
+        listModel.clear();
+        List<Thread> folderThreads = CoursesBLO.GetThreads(folderId);
+
+        for (int i = 0; i < folderThreads.size(); i++) {
+            listModel.addElement(folderThreads.get(i).Name);
+        }
+
+        listIds = folderThreads
+            .stream()
+            .map(Thread::getId)
+            .collect(Collectors.toList());
+
+        mainList.setVisibleRowCount(folderThreads.size());
+
+        activeFolderID = folderId;
+        listMode = ListMode.THREADS;
+    }
+
+    private void updateBreadcrumb() {
+        if (activeCourseID != -1 && activeCourseName != null) {
+            breadCrumbCourseArrow.setVisible(true);
+            activeCourseBreadcrumb.setText(activeCourseName);
+            activeCourseBreadcrumb.setVisible(true);
+        } else {
+            breadCrumbCourseArrow.setVisible(false);
+            activeCourseBreadcrumb.setVisible(false);
+        }
+
+        if (activeFolderID != -1 && activeFolderName != null) {
+            breadCrumbFolderArrow.setVisible(true);
+            activeFolderBreadcrumb.setText(activeFolderName);
+            activeFolderBreadcrumb.setVisible(true);
+        } else {
+            breadCrumbFolderArrow.setVisible(false);
+            activeFolderBreadcrumb.setVisible(false);
+        }
     }
 }

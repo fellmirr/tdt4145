@@ -12,4 +12,8 @@ public class Course {
         this.CourseID = coursId;
         this.Name = name;
     }
+
+    public int getId() {
+        return CourseID;
+    }
 }
