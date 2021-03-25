@@ -4,6 +4,7 @@ import com.tdt4145.BLO.CoursesBLO;
 import com.tdt4145.BLO.ThreadsBLO;
 import com.tdt4145.Models.Course;
 import com.tdt4145.Models.Folder;
+import com.tdt4145.Models.IContainer;
 import com.tdt4145.Models.ListMode;
 import com.tdt4145.BLO.UsersBLO;
 import com.tdt4145.Models.User;
@@ -56,9 +57,6 @@ public class HomeFrame {
     static JLabel breadCrumbActiveCourse = new JLabel("");
     static JLabel breadCrumbFolderArrow = new JLabel(">");
     static JLabel breadCrumbActiveFolder = new JLabel("");
-    
-
-    static JButton addPostButton = new JButton("Add post");
 
     public HomeFrame(int userID) {
         this.userID = userID;
@@ -99,9 +97,10 @@ public class HomeFrame {
             }
         });
 
-            //Breadcrumbs
+            //Setup breadcrumbs
             breadCrumbTop.setBounds(10, 4, 55, 34);
             breadCrumbTop.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            //When the toplevel breadcrumb is clicked, return to displaying the courses available to the user
             breadCrumbTop.addMouseListener(new MouseInputAdapter(){
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -116,6 +115,7 @@ public class HomeFrame {
             breadCrumbCourseArrow.setBounds(75, 4, 10, 34);
             breadCrumbActiveCourse.setBounds(95, 4, 120, 34);
             breadCrumbActiveCourse.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            //When the active course breadcrump is clicked, return to displaying the folders for that course
             breadCrumbActiveCourse.addMouseListener(new MouseInputAdapter(){
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -128,12 +128,15 @@ public class HomeFrame {
             breadCrumbFolderArrow.setBounds(225, 4, 10, 34);
             breadCrumbActiveFolder.setBounds(245, 4, 120, 34);
             breadCrumbActiveFolder.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            //Sets the breadcrumbs to their default state
             updateBreadcrumb();
 
 
         //Add components to frame
         frame.add(searchButton);
         frame.add(makePostButton);
+
+        //Statistics are only available to instructors
         if (user.Role == UserRole.Instructor) {
             frame.add(statisticsButton);
         }
@@ -151,6 +154,12 @@ public class HomeFrame {
         frame.setVisible(true);
     }
 
+    /**
+     * Initializes the main list in the home frame.
+     * Adds a listener to the list so that when the user
+     * clicks an item in the list, open that specific course, folder
+     * or thread.
+     */
     private void initializeList() {
         mainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         mainList.addMouseListener(new MouseInputAdapter(){
@@ -183,62 +192,61 @@ public class HomeFrame {
         frame.add(mainList);
     }
 
+    /**
+     * Fill the main list with the courses available to the user
+     */
     private void setListCourses() {
-        listModel.clear();
         List<Course> userCourses = CoursesBLO.GetCourses(userID);
-
-        for (int i = 0; i < userCourses.size(); i++) {
-            listModel.addElement(userCourses.get(i).Name);
-        }
-
-        listIds = userCourses
-            .stream()
-            .map(Course::getId)
-            .collect(Collectors.toList());
-
-        mainList.setVisibleRowCount(userCourses.size());
-
+        setListItems(userCourses);
         listMode = ListMode.COURSES;
     }
 
+    /**
+     * Fill the main list with the folders of a given course
+     */
     private void setListFolders(int courseId) {
-        listModel.clear();
         List<Folder> courseFolders = CoursesBLO.GetFolders(courseId);
-
-        for (int i = 0; i < courseFolders.size(); i++) {
-            listModel.addElement(courseFolders.get(i).FolderName);
-        }
-
-        listIds = courseFolders
-            .stream()
-            .map(Folder::getId)
-            .collect(Collectors.toList());
-
-        mainList.setVisibleRowCount(courseFolders.size());
-
+        setListItems(courseFolders);
         listMode = ListMode.FOLDERS;
         activeCourseID = courseId;
     }
 
+    /**
+     * Fill the list with the threads in a given folder
+     */
     private void setListThreads(int folderId) {
-        listModel.clear();
         List<Thread> folderThreads = ThreadsBLO.GetThreads(folderId);
-
-        for (int i = 0; i < folderThreads.size(); i++) {
-            listModel.addElement(folderThreads.get(i).ThreadName);
-        }
-
-        listIds = folderThreads
-            .stream()
-            .map(Thread::getId)
-            .collect(Collectors.toList());
-
-        mainList.setVisibleRowCount(folderThreads.size());
-
+        setListItems(folderThreads);
         activeFolderID = folderId;
         listMode = ListMode.THREADS;
     }
 
+    /**
+     * Takes a list of items implementing IContainer interface
+     * and populates the list with their names. Also updates
+     * the local state variable listIds to reference their IDs
+     * @param items A list of items implementing IContainer interface
+     */
+    private void setListItems(List<? extends IContainer> items) {
+        listModel.clear();
+
+        for (int i = 0; i < items.size(); i++) {
+            listModel.addElement(items.get(i).getName());
+        }
+
+        listIds = items
+            .stream()
+            .map(IContainer::getId)
+            .collect(Collectors.toList());
+
+        mainList.setVisibleRowCount(items.size());
+    }
+
+    /**
+     * Displays the apropriate breadcrumbs dependent on the local state variables
+     * We keep track of wether a certain course has been selected or a certain folder
+     * is selected, and show breadcrumbs accordingly
+     */
     private void updateBreadcrumb() {
         if (activeCourseID != -1 && activeCourseName != null) {
             breadCrumbCourseArrow.setVisible(true);

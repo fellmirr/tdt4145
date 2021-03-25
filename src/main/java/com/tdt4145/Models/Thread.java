@@ -1,6 +1,6 @@
 package com.tdt4145.Models;
 
-public class Thread {
+public class Thread implements IContainer {
     public int ThreadID;
     public int FolderID;
     public String ThreadName;
@@ -13,5 +13,9 @@ public class Thread {
 
     public int getId() {
         return ThreadID;
+    }
+
+    public String getName() {
+        return ThreadName;
     }
 }

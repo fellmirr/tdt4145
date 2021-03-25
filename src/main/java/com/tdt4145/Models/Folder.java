@@ -1,6 +1,6 @@
 package com.tdt4145.Models;
 
-public class Folder {
+public class Folder implements IContainer {
     public int FolderID;
     public int CourseID;
     public String FolderName;
@@ -14,5 +14,9 @@ public class Folder {
     
     public int getId() {
         return FolderID;
+    }
+
+    public String getName() {
+        return FolderName;
     }
 }
