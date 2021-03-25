@@ -11,20 +11,22 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class ReplyFrame implements ActionListener {
     private int userID;
-    public Post post;
+    private Post post;
+    private ThreadFrame originFrame;
 
-    static JFrame frame = new JFrame("Piazza - Reply to post");
+    private JFrame frame = new JFrame("Piazza - Reply to post");
 
-    static JLabel originalPostLabel = new JLabel();
-    static JTextArea originalPostTextArea = new JTextArea(5, 50);
+    private JLabel originalPostLabel = new JLabel();
+    private JTextArea originalPostTextArea = new JTextArea(5, 50);
 
-    static JLabel postReplyLabel = new JLabel("Reply Text:");
-    static JTextArea postReplyTextArea = new JTextArea(5,50);
-    static JButton postReplyButton = new JButton("Reply");
+    private JLabel postReplyLabel = new JLabel("Reply Text:");
+    private JTextArea postReplyTextArea = new JTextArea(5,50);
+    private JButton postReplyButton = new JButton("Reply");
 
-    public ReplyFrame(Post post, int userID) {
+    public ReplyFrame(Post post, int userID, ThreadFrame originFrame) {
         this.post = post;
         this.userID = userID;
+        this.originFrame = originFrame;
         draw();
     }
 
@@ -70,6 +72,7 @@ public class ReplyFrame implements ActionListener {
         response = PostsBLO.UpdatePostAsAnswered(this.post.PostID); // Updated replied post to be answered
         if (response == 1) {
             // Reply to post successful
+            originFrame.printPosts();
             frame.setVisible(false);
             frame.dispose();
         } else {

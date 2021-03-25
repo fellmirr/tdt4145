@@ -10,9 +10,9 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class SearchFrame {
-    static JFrame frame = new JFrame("Piazza - search");
-    static JTextField searchInput = new JTextField("");
-    static JButton searchButton = new JButton("Search");
+    private JFrame frame = new JFrame("Piazza - search");
+    private JTextField searchInput = new JTextField("");
+    private JButton searchButton = new JButton("Search");
 
     DefaultListModel<String> resultsModel = new DefaultListModel<String>();
     JList<String> searchResultList = new JList<String>(resultsModel);

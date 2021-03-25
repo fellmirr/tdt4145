@@ -20,24 +20,28 @@ import com.tdt4145.Models.Post;
 
 public class ThreadFrame {
     private int threadId;
-    static JFrame frame = new JFrame("Piazza - Thread");
-    static JScrollPane scrollPane = new JScrollPane();
+    private int userId;
+    private JFrame frame = new JFrame("Piazza - Thread");
+    private JScrollPane scrollPane = new JScrollPane();
+    private JPanel threadPanel;
 
-    public ThreadFrame(int threadId) {
+    public ThreadFrame(int threadId, int userId) {
         this.threadId = threadId;
+        this.userId = userId;
         draw();
         printPosts();
     }
 
     public void draw() {
         //Exit application when frame closed
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        frame.setLayout(null);
         frame.setMinimumSize(new Dimension(440, 500));
         frame.setMaximumSize(new Dimension(440, 500));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //Configure frame components
-        scrollPane.setBounds(0,0,420,600);
+        scrollPane.setBounds(0, 0, 440, 480);
+        scrollPane.setMaximumSize(new Dimension(440, 480));
         scrollPane.setAlignmentY(JScrollPane.TOP_ALIGNMENT);
         
         //Add frame components
@@ -49,16 +53,18 @@ public class ThreadFrame {
         frame.setVisible(true); 
     }
 
-    private void printPosts() {
+    public void printPosts() {
+        if (threadPanel != null)
+            scrollPane.remove(threadPanel);
+
         List<Post> posts = ThreadsBLO.getThreadPosts(threadId);
-        JPanel threadPanel = new JPanel();
+        threadPanel = new JPanel();
 
         threadPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         scrollPane.getViewport().add(threadPanel);
-        scrollPane.setSize(new Dimension(420, 600));
         
         for (Post post : posts) {
             JPanel postPanel = new JPanel();
@@ -76,10 +82,12 @@ public class ThreadFrame {
             buttonPanel.setSize(new Dimension(420, 40));
 
             JButton answerButton = new JButton("Answer");
+
+            ThreadFrame frame = this;
             answerButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    new ReplyFrame(post, 1);
+                    new ReplyFrame(post, userId, frame);
                 }
             });
 
@@ -91,5 +99,7 @@ public class ThreadFrame {
             gbc.gridy = ++gbc.gridy;
             threadPanel.add(postPanel, gbc);
         }
+
+        scrollPane.setBounds(0,0,440,480);
     }
 }

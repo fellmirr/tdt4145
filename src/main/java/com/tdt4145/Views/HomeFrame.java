@@ -27,14 +27,14 @@ public class HomeFrame {
     private int userID;
     private User user;
     
-    static JFrame frame = new JFrame("Piazza - Hjem");
+    private JFrame frame = new JFrame("Piazza - Hjem");
 
     /**
      * Main menu buttons
      */
-    static JButton searchButton = new JButton("Search");
-    static JButton statisticsButton = new JButton("Statistics");
-    static JButton makePostButton = new JButton("Create post");
+    private JButton searchButton = new JButton("Search");
+    private JButton statisticsButton = new JButton("Statistics");
+    private JButton makePostButton = new JButton("Create post");
 
     /**
      * Main list
@@ -52,11 +52,11 @@ public class HomeFrame {
     private int activeFolderID = -1;
     private String activeCourseName = null;
     private String activeFolderName = null;
-    static JLabel breadCrumbTop = new JLabel("Courses");
-    static JLabel breadCrumbCourseArrow = new JLabel(">");
-    static JLabel breadCrumbActiveCourse = new JLabel("");
-    static JLabel breadCrumbFolderArrow = new JLabel(">");
-    static JLabel breadCrumbActiveFolder = new JLabel("");
+    private JLabel breadCrumbTop = new JLabel("Courses");
+    private JLabel breadCrumbCourseArrow = new JLabel(">");
+    private JLabel breadCrumbActiveCourse = new JLabel("");
+    private JLabel breadCrumbFolderArrow = new JLabel(">");
+    private JLabel breadCrumbActiveFolder = new JLabel("");
 
     public HomeFrame(int userID) {
         this.userID = userID;
@@ -180,7 +180,7 @@ public class HomeFrame {
                             updateBreadcrumb();
                             break;
                         case THREADS:
-                            new ThreadFrame(listIds.get(index));
+                            new ThreadFrame(listIds.get(index), userID);
                             break;
                         default:
                             System.out.println("Unrecognized list mode");

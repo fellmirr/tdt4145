@@ -8,15 +8,15 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class StatisticsFrame {
-    final static String[] columnNames = {
+    final private String[] columnNames = {
         "User Email",
         "Posts Viewed",
         "Posts Created"
     };
 
     DefaultTableModel model = new DefaultTableModel();
-    static JFrame frame = new JFrame("Piazza - Statistics");
-    static JTable statisticsTable = new JTable();
+    private JFrame frame = new JFrame("Piazza - Statistics");
+    private JTable statisticsTable = new JTable();
 
     public StatisticsFrame() {
         draw();
@@ -31,7 +31,6 @@ public class StatisticsFrame {
     }
 
     private void draw() {
-        //Exit application when frame closed
         frame.setSize(600, 400);
         frame.setLayout(new BorderLayout());
 

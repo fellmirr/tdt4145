@@ -13,22 +13,22 @@ public class MakePostFrame implements ActionListener {
     private int userID;
     public Post post;
 
-    static JFrame frame = new JFrame("Piazza - Make new post");
+    private JFrame frame = new JFrame("Piazza - Make new post");
 
-    static JLabel postLabel = new JLabel();
-    static JTextArea postTextArea = new JTextArea(5, 50);
+    private JLabel postLabel = new JLabel();
+    private JTextArea postTextArea = new JTextArea(5, 50);
 
-    static JLabel tagLabel = new JLabel();
-    static JTextArea tagTextArea = new JTextArea(5, 10);
+    private JLabel tagLabel = new JLabel();
+    private JTextArea tagTextArea = new JTextArea(5, 10);
 
-    static JLabel folderLabel = new JLabel();
-    static JTextArea folderTextArea = new JTextArea(5, 50);
+    private JLabel folderLabel = new JLabel();
+    private JTextArea folderTextArea = new JTextArea(5, 50);
 
-    static JLabel threadLabel = new JLabel();
-    static JTextArea threadTextArea = new JTextArea(5, 50);
+    private JLabel threadLabel = new JLabel();
+    private JTextArea threadTextArea = new JTextArea(5, 50);
 
 
-    static JButton postButton = new JButton("Post");
+    private JButton postButton = new JButton("Post");
 
     public MakePostFrame(int userID) {
         this.userID = userID;

@@ -12,15 +12,15 @@ import com.tdt4145.BLO.UsersBLO;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class LoginFrame implements ActionListener {
-    static JFrame frame = new JFrame("Piazza - Login");
+    private JFrame frame = new JFrame("Piazza - Login");
 
-    static JLabel emailLabel = new JLabel("Email:");
-    static JTextField emailField = new JTextField("");
+    private JLabel emailLabel = new JLabel("Email:");
+    private JTextField emailField = new JTextField("");
 
-    static JLabel passwordLabel = new JLabel("Password:");
-    static JPasswordField passwordField = new JPasswordField("");
+    private JLabel passwordLabel = new JLabel("Password:");
+    private JPasswordField passwordField = new JPasswordField("");
 
-    static JButton loginButton = new JButton("Login");
+    private JButton loginButton = new JButton("Login");
 
     public LoginFrame() {
         draw();
