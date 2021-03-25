@@ -58,12 +58,12 @@ public class PostsBLO {
      */
     public static boolean MakePost(String tagName,int userID, String text, String folderName, String threadName){
         int folderID = FoldersDAO.getFolderID(folderName);
-        if (folderID ==-1){
+        if (folderID ==-1) {
             FoldersDAO.addFolder(folderName);
             folderID = FoldersDAO.getFolderID(folderName);
         }
         int tagID = TagDAO.getTagID(tagName);
-        if (tagID ==-1){
+        if (tagID ==-1) {
             TagDAO.addTag(tagName);
             tagID = TagDAO.getTagID(tagName);
         }

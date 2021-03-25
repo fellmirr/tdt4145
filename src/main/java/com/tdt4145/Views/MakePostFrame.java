@@ -42,34 +42,32 @@ public class MakePostFrame implements ActionListener {
         frame.setLayout(null);
 
         //Configure frame components
-        postLabel.setBounds(20, 20, 120, 40);
-        postLabel.setText("Post a question");
-        postTextArea.setBounds(140, 20, 180, 120);
+        postLabel.setBounds(20, 10, 120, 40);
+        postLabel.setText("Post text:");
+
+        postTextArea.setBounds(20, 50, 560, 200);
         postTextArea.setWrapStyleWord(true);
         postTextArea.setLineWrap(true);
 
-        tagLabel.setBounds(340, 10, 120, 40);
-        tagLabel.setText("Tag; ");
-        tagTextArea.setBounds(390, 20, 100, 30);
+        tagLabel.setBounds(20, 266, 120, 40);
+        tagLabel.setText("Tag:");
+        tagTextArea.setBounds(60, 272, 100, 30);
         tagTextArea.setWrapStyleWord(true);
         tagTextArea.setLineWrap(true);
 
-        folderLabel.setBounds(340, 50, 120, 40);
+        folderLabel.setBounds(170, 266, 120, 40);
         folderLabel.setText("Folder: ");
-        folderTextArea.setBounds(390, 65, 100, 30);
+        folderTextArea.setBounds(230, 272, 100, 30);
         folderTextArea.setWrapStyleWord(true);
         folderTextArea.setLineWrap(true);
         
-        threadLabel.setBounds(340, 105, 120, 40);
+        threadLabel.setBounds(340, 266, 120, 40);
         threadLabel.setText("Thread: ");
-        threadTextArea.setBounds(390, 110, 100, 30);
+        threadTextArea.setBounds(400, 272, 100, 30);
         threadTextArea.setWrapStyleWord(true);
         threadTextArea.setLineWrap(true);
-        
-        
-        
 
-        postButton.setBounds(50, 300, 200, 40);
+        postButton.setBounds(460, 320, 120, 40);
         postButton.addActionListener(this);
 
         //Add components to frame
@@ -88,9 +86,7 @@ public class MakePostFrame implements ActionListener {
         frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);
-    }
-    //public static boolean MakePost(String tagName,int userID, String text, String folderName, String threadName)
-    
+    }    
 
     @Override
     public void actionPerformed(ActionEvent e) {

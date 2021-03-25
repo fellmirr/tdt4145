@@ -2,6 +2,15 @@ package com.tdt4145.DAO;
 
 import java.sql.*;
 
+/**
+ * The “Database” class is designed as a singleton, 
+ * meaning that the database object is initialized only once. 
+ * This is done by calling “Database.getInstance()” which 
+ * will check if the database object has already been initialized 
+ * and return that. If the database object has not been initialized, 
+ * it will initialize the database object and return that. 
+ */
+
 public class Database {
     private static Database dbObject;
     protected static Connection conn;
