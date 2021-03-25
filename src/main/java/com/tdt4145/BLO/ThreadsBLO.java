@@ -7,6 +7,11 @@ import com.tdt4145.Models.Post;
 import com.tdt4145.Models.Thread;
 
 public class ThreadsBLO {
+    /**
+     * Fetches all the posts in a thread
+     * @param threadId
+     * @return A list of posts in a thread
+     */
     public static List<Post> getThreadPosts(int threadId) {
         return ThreadsDAO.getThreadPosts(threadId);
     }

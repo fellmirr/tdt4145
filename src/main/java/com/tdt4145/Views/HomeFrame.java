@@ -14,12 +14,11 @@ import java.awt.Cursor;
 import com.tdt4145.Models.Thread;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
+import javax.swing.event.MouseInputAdapter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,9 +53,9 @@ public class HomeFrame {
     private String activeFolderName = null;
     static JLabel breadCrumbTop = new JLabel("Courses");
     static JLabel breadCrumbCourseArrow = new JLabel(">");
-    static JLabel activeCourseBreadcrumb = new JLabel("");
+    static JLabel breadCrumbActiveCourse = new JLabel("");
     static JLabel breadCrumbFolderArrow = new JLabel(">");
-    static JLabel activeFolderBreadcrumb = new JLabel("");
+    static JLabel breadCrumbActiveFolder = new JLabel("");
     
 
     static JButton addPostButton = new JButton("Add post");
@@ -103,11 +102,9 @@ public class HomeFrame {
             //Breadcrumbs
             breadCrumbTop.setBounds(10, 4, 55, 34);
             breadCrumbTop.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            breadCrumbTop.addMouseListener(new MouseInputListener(){
-
+            breadCrumbTop.addMouseListener(new MouseInputAdapter(){
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    // TODO Auto-generated method stub
                     activeCourseID = -1;
                     activeFolderID = -1;
                     activeCourseName = null;
@@ -115,48 +112,11 @@ public class HomeFrame {
                     setListCourses();
                     updateBreadcrumb();
                 }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mouseDragged(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mouseMoved(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-                
             });
             breadCrumbCourseArrow.setBounds(75, 4, 10, 34);
-            activeCourseBreadcrumb.setBounds(95, 4, 120, 34);
-            activeCourseBreadcrumb.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            activeCourseBreadcrumb.addMouseListener(new MouseInputListener(){
+            breadCrumbActiveCourse.setBounds(95, 4, 120, 34);
+            breadCrumbActiveCourse.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            breadCrumbActiveCourse.addMouseListener(new MouseInputAdapter(){
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     activeFolderID = -1;
@@ -164,47 +124,10 @@ public class HomeFrame {
                     setListFolders(activeCourseID);
                     updateBreadcrumb();
                 }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mouseDragged(MouseEvent arg0) {
-                    // TODO Auto-generated method stub
-                    
-                }
-
-                @Override
-                public void mouseMoved(MouseEvent arg0) {
-                    // TODO Auto-generated method stub
-                    
-                }
-                
             });
             breadCrumbFolderArrow.setBounds(225, 4, 10, 34);
-            activeFolderBreadcrumb.setBounds(245, 4, 120, 34);
-            activeFolderBreadcrumb.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            breadCrumbActiveFolder.setBounds(245, 4, 120, 34);
+            breadCrumbActiveFolder.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             updateBreadcrumb();
 
 
@@ -218,9 +141,9 @@ public class HomeFrame {
             //Breadcrumbs
             frame.add(breadCrumbTop);
             frame.add(breadCrumbCourseArrow);
-            frame.add(activeCourseBreadcrumb);
+            frame.add(breadCrumbActiveCourse);
             frame.add(breadCrumbFolderArrow);
-            frame.add(activeFolderBreadcrumb);
+            frame.add(breadCrumbActiveFolder);
 
         //Set frame to center of screen
         frame.setLocationRelativeTo(null);
@@ -230,7 +153,7 @@ public class HomeFrame {
 
     private void initializeList() {
         mainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        mainList.addMouseListener(new MouseListener() {
+        mainList.addMouseListener(new MouseInputAdapter(){
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 2) {
@@ -255,18 +178,6 @@ public class HomeFrame {
                     }
                 }
             }
-
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {}
-
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {}
-
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent e) {}
-
-            @Override
-            public void mouseReleased(java.awt.event.MouseEvent e) {}
         });
         mainList.setBounds(10, 42, 580, 260);
         frame.add(mainList);
@@ -331,20 +242,20 @@ public class HomeFrame {
     private void updateBreadcrumb() {
         if (activeCourseID != -1 && activeCourseName != null) {
             breadCrumbCourseArrow.setVisible(true);
-            activeCourseBreadcrumb.setText(activeCourseName);
-            activeCourseBreadcrumb.setVisible(true);
+            breadCrumbActiveCourse.setText(activeCourseName);
+            breadCrumbActiveCourse.setVisible(true);
         } else {
             breadCrumbCourseArrow.setVisible(false);
-            activeCourseBreadcrumb.setVisible(false);
+            breadCrumbActiveCourse.setVisible(false);
         }
 
         if (activeFolderID != -1 && activeFolderName != null) {
             breadCrumbFolderArrow.setVisible(true);
-            activeFolderBreadcrumb.setText(activeFolderName);
-            activeFolderBreadcrumb.setVisible(true);
+            breadCrumbActiveFolder.setText(activeFolderName);
+            breadCrumbActiveFolder.setVisible(true);
         } else {
             breadCrumbFolderArrow.setVisible(false);
-            activeFolderBreadcrumb.setVisible(false);
+            breadCrumbActiveFolder.setVisible(false);
         }
     }
 }

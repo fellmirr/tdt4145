@@ -8,7 +8,6 @@ public class Course {
     public List<String> Terms;
 
     public Course(int coursId, String name) {
-        //TODO: Add Terms as input
         this.CourseID = coursId;
         this.Name = name;
     }

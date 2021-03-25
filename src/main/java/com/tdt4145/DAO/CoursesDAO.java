@@ -8,8 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CoursesDAO {
+    static private Database db = Database.getInstance();
+
+    /**
+     * Fetches the courses the given user is participating in
+     * @param userId
+     * @return A list of courses if successfull, null if fails
+     */
     public static List<Course> GetCourses(int userId) {
-        Database db = Database.getInstance();
         ResultSet result = db.query("SELECT Courses.CourseID, Courses.Name FROM Users RIGHT JOIN UsersInCourse ON Users.UserID = UsersInCourse.UserID INNER JOIN Courses ON Courses.CourseID = UsersInCourse.CourseID WHERE Users.UserID = " + userId);
         try {
             List<Course> Courses = new ArrayList<Course>();
@@ -27,8 +33,12 @@ public class CoursesDAO {
         }
     }
 
+    /**
+     * Fetches a list of folders for a given course
+     * @param courseId
+     * @return A list of folders if sucessfull, null if fails
+     */
     public static List<Folder> GetFolders(int courseId) {
-        Database db = Database.getInstance();
         ResultSet result = db.query("SELECT FolderID, CourseID, FolderName FROM Folders WHERE CourseID = " + courseId);
         try {
             List<Folder> folders = new ArrayList<Folder>();

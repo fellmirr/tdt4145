@@ -11,10 +11,16 @@ import com.tdt4145.Models.Post;
 public class ThreadsDAO extends Database {
     static private Database db = Database.getInstance();
 
+    /**
+     * Adds a thread to the database with a given name to a given folder
+     * @param threadName Name of the thread
+     * @param folderID ID of the folder
+     * @return The id of the thread if successfull, -1 otherwise
+     */
     public static int addThread(String threadName, int folderID) { 
         int response = -1;
         try {
-            PreparedStatement stmt = db.prepare("INSERT INTO Threads(FolderID,ThreadName) VALUES" + " ( (?), (?))");
+            PreparedStatement stmt = db.prepare("INSERT INTO Threads(FolderID,ThreadName) VALUES ( (?), (?))");
             stmt.setInt(1, folderID);
             stmt.setString(2, threadName);
             stmt.executeUpdate();
@@ -28,6 +34,11 @@ public class ThreadsDAO extends Database {
         return response;
     }
 
+    /**
+     * Fetches all the Posts that belong to a given thread
+     * @param threadId
+     * @return A list of posts
+     */
     public static List<Post> getThreadPosts(int threadId) {
         List<Post> resultList = new ArrayList<Post>();
 
@@ -43,8 +54,13 @@ public class ThreadsDAO extends Database {
         return resultList;
     }
 
+    /**
+     * Returns all the threads in a given folder
+     * @param folderId
+     * @return A list of threads if successfull, null otherwise
+     */
     public static List<Thread> GetThreads(int folderId) {
-        ResultSet result = db.query("SELECT ThreadID, FolderID ThreadName FROM Threads WHERE FolderID = " + folderId);
+        ResultSet result = db.query("SELECT ThreadID, FolderID, ThreadName FROM Threads WHERE FolderID = " + folderId);
         try {
             List<Thread> thread = new ArrayList<Thread>();
 

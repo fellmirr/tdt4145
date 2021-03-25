@@ -6,13 +6,14 @@ import com.tdt4145.Models.User;
 import com.tdt4145.Models.UserRole;
 
 public class UsersDAO {
+    static private Database db = Database.getInstance();
+
     /**
      * Fetches a user with a given ID from the database
      * @param id
      * @return A User object if found, null otherwise
      */
     public static User GetUser(int id) {
-        Database db = Database.getInstance();
         ResultSet result = db.query("SELECT * FROM Users WHERE UserID = " + id);
         try {
             boolean next = result.next();
@@ -53,7 +54,6 @@ public class UsersDAO {
      * @return The ID of the user if they exist, -1 otherwise
      */
     public static int Login(String email, String password) {
-        Database db = Database.getInstance();
         String query = String.format("SELECT * FROM Users WHERE Email = '%s' AND Password = '%s'", email, password);
         ResultSet result = db.query(query);
         try {

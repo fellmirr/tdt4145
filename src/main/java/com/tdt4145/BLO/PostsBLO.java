@@ -48,7 +48,9 @@ public class PostsBLO {
     }
     
     /**
-     * Creates a post and a thread
+     * Creates a post and a thread.
+     * Creates folders and tags if the supplied folder and tag is not found in the database.
+     * 
      * @param tagName Tag of the post
      * @param userID ID of the author of the post
      * @param text Text in the post
@@ -57,21 +59,43 @@ public class PostsBLO {
      * @return true if successfull, false if it fails
      */
     public static boolean MakePost(String tagName,int userID, String text, String folderName, String threadName){
+        /**
+         * Note: Ideally this should be a transaction,
+         * given that we might want to roll back any changes
+         * made to the database if any of the steps fails.
+         */
+
+        // Attempt to fetch the folder from the database
+        // If the folder does not exist, create a new folder
+        // The folder is hard coded to belong to the course TDTD4145
         int folderID = FoldersDAO.getFolderID(folderName);
-        if (folderID ==-1) {
-            FoldersDAO.addFolder(folderName);
-            folderID = FoldersDAO.getFolderID(folderName);
-        }
+        if (folderID == -1) 
+            folderID = FoldersDAO.addFolder(folderName, 1);
+
+        if (folderID == -1)
+            return false;
+
+        // Attempt to fetch the tag ID from the database
+        // If the tag does not exist, create a new tag
         int tagID = TagDAO.getTagID(tagName);
-        if (tagID ==-1) {
-            TagDAO.addTag(tagName);
-            tagID = TagDAO.getTagID(tagName);
-        }
+        if (tagID ==-1) 
+            tagID = TagDAO.addTag(tagName);
+
+        if (tagID == -1)
+            return false;
+
+        // Create the thread for which the post belongs to
         int threadID = ThreadsDAO.addThread(threadName, folderID);
+
+        if (threadID == -1)
+            return false;
+
+        // Finally create the post
         int result = PostsDAO.addPost(threadID, tagID, text, userID);
-        if(result == 1){
+
+        if(result == 1)
             return true;
-        }
+
         return false;
     }
 }

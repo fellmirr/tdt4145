@@ -20,21 +20,28 @@ public class FoldersDAO {
         return folderID;
     } 
 
-    public static int addFolder(String folderName) {
-        int courseID = 1;
-        int response = 0;
+    /**
+     * Adds a folder to the database
+     * @param folderName
+     * @return The ID of the inserted folder if successfull, -1 otherwise
+     */
+    public static int addFolder(String folderName, int courseId) {
+        int response = -1;
 
         try {
-            PreparedStatement stmt = db.prepare("INSERT INTO Folders(CourseID, FolderName) VALUES" + "( (?), (?))");
-            stmt.setInt(1, courseID);
+            PreparedStatement stmt = db.prepare("INSERT INTO Folders(CourseID, FolderName) VALUES ( (?), (?))");
+            stmt.setInt(1, courseId);
             stmt.setString(2,folderName);
             stmt.execute();
-            response = 1;
+            
+            ResultSet result = stmt.getGeneratedKeys();
+            if (result.next()) {
+                response = result.getInt(1);
+            }
         } catch (Exception e) {
             System.out.println("db error during prepare of insert into Posts");
         }
         return response;
     }
-
 }
 
