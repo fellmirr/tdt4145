@@ -29,8 +29,7 @@ public class ReplyFrame implements ActionListener {
     }
 
     public void draw() {
-        //Exit application when frame closed
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(null);
 
@@ -71,7 +70,6 @@ public class ReplyFrame implements ActionListener {
         response = PostsBLO.UpdatePostAsAnswered(this.post.PostID); // Updated replied post to be answered
         if (response == 1) {
             // Reply to post successful
-            new HomeFrame(userID);
             frame.setVisible(false);
             frame.dispose();
         } else {

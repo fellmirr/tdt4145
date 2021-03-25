@@ -237,7 +237,7 @@ public class HomeFrame {
                             updateBreadcrumb();
                             break;
                         case THREADS:
-                            //TODO: Open thread frame
+                            new ThreadFrame(listIds.get(index));
                             break;
                         default:
                             System.out.println("Unrecognized list mode");

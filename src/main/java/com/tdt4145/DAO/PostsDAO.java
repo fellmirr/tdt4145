@@ -89,6 +89,26 @@ public class PostsDAO extends Database {
     }
 
     /**
+     * Updates a post to be "Answered".
+     * @param postId The post id replied to
+     * @return Returns 1 if successfully updated, or 0 if not.
+     */
+    public static int UpdatePostAsAnswered(int postId) {
+        int response = 0;
+        try {
+            regStatement = conn.prepareStatement("UPDATE Posts SET Answered = ? WHERE PostID = ?");
+            regStatement.setInt(1, 1);
+            regStatement.setInt(2, postId);
+            regStatement.executeUpdate();
+            response = 1;
+        } catch (Exception e) {
+            System.out.println("Failed to update post as answered");
+            response = 0;
+        }
+        return response;
+    }
+
+    /**
      * Takes in a result row from a database query and attempts to extract
      * a Post object from the result row
      * @param result The result set row
@@ -110,26 +130,6 @@ public class PostsDAO extends Database {
             System.out.println("Failed to fetch post from database result row.");
             return null;
         }
-    }
-
-    /**
-     * Updates a post to be "Answered".
-     * @param postId The post id replied to
-     * @return Returns 1 if successfully updated, or 0 if not.
-     */
-    public static int UpdatePostAsAnswered(int postId) {
-        int response = 0;
-        try {
-            regStatement = conn.prepareStatement("UPDATE Posts SET Answered = ? WHERE PostID = ?");
-            regStatement.setInt(1, 1);
-            regStatement.setInt(2, postId);
-            regStatement.executeUpdate();
-            response = 1;
-        } catch (Exception e) {
-            System.out.println("Failed to update post as answered");
-            response = 0;
-        }
-        return response;
     }
 }
 
