@@ -335,5 +335,12 @@ public class HomeFrame {
             breadCrumbFolderArrow.setVisible(false);
             activeFolderBreadcrumb.setVisible(false);
         }
+        else if(e.getSource()==addPostButton){
+            
+            new MakePostFrame(userID);
+            frame.setVisible(false);
+            frame.dispose(); 
+
+        }
     }
 }
