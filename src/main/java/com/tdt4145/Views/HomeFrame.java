@@ -91,7 +91,7 @@ public class HomeFrame {
             }
         });
 
-        statisticsButton.setBounds(280, 310, 120, 36);
+        statisticsButton.setBounds(270, 310, 120, 36);
         statisticsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

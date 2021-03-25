@@ -1,15 +1,16 @@
 package com.tdt4145.Views;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import java.awt.GridBagConstraints;  
+import java.awt.GridBagLayout;  
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -31,11 +32,14 @@ public class ThreadFrame {
     public void draw() {
         //Exit application when frame closed
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-        frame.setMinimumSize(new Dimension(420, 500));
+        frame.setMinimumSize(new Dimension(440, 500));
+        frame.setMaximumSize(new Dimension(440, 500));
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //Configure frame components
         scrollPane.setBounds(0,0,420,600);
-
+        scrollPane.setAlignmentY(JScrollPane.TOP_ALIGNMENT);
+        
         //Add frame components
         frame.add(scrollPane);
         
@@ -48,10 +52,14 @@ public class ThreadFrame {
     private void printPosts() {
         List<Post> posts = ThreadsBLO.getThreadPosts(threadId);
         JPanel threadPanel = new JPanel();
-        threadPanel.setLayout(new BoxLayout(threadPanel, BoxLayout.Y_AXIS));
+
+        threadPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
         scrollPane.getViewport().add(threadPanel);
         scrollPane.setSize(new Dimension(420, 600));
-        scrollPane.setMaximumSize(new Dimension(420, 1600));
+        
         for (Post post : posts) {
             JPanel postPanel = new JPanel();
             postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS));
@@ -61,10 +69,10 @@ public class ThreadFrame {
             textArea.setWrapStyleWord(true);
             textArea.setEditable(false);
             textArea.setOpaque(false);
+            textArea.setPreferredSize(new Dimension(420, 20));
             
 
-            JPanel buttonPanel = new JPanel();
-            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             buttonPanel.setSize(new Dimension(420, 40));
 
             JButton answerButton = new JButton("Answer");
@@ -80,11 +88,8 @@ public class ThreadFrame {
             postPanel.add(textArea);
             postPanel.add(buttonPanel);
 
-            threadPanel.add(postPanel);
-
-            System.out.println(post.Text);
+            gbc.gridy = ++gbc.gridy;
+            threadPanel.add(postPanel, gbc);
         }
-
-        frame.pack();
     }
 }
