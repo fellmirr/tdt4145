@@ -38,13 +38,24 @@ public class PostsBLO {
      */
     public static boolean MakePost(String tagName,int userID, String text, String folderName, String threadName){
         int folderID = FoldersDAO.getFolderID(folderName);
-        int threadID = ThreadsDAO.addThread(threadName, folderID);
+        if (folderID ==-1){
+            FoldersDAO.addFolder(folderName);
+            folderID = FoldersDAO.getFolderID(folderName);
+        }
         int tagID = TagDAO.getTagID(tagName);
+        if (tagID ==-1){
+            TagDAO.addTag(tagName);
+            tagID = TagDAO.getTagID(tagName);
+        }
+        int threadID = ThreadsDAO.addThread(threadName, folderID);
         int result = PostsDAO.addPost(threadID, tagID, text, userID);
         if(result == 1){
             return true;
         }
         return false;
     }
+
+
+
 
 }

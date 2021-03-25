@@ -44,13 +44,8 @@ public class HomeFrame implements ActionListener {
         postIdButton.addActionListener(this);
 
         addPostButton.setBounds(20, 120, 200, 40);
-        addPostButton.addActionListener(new ActionListener(){
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PostsBLO.MakePost("Question", userID, "Dette er en tekst.", "Exam", "Starter en thread");
-                
-            }});
+        
+        addPostButton.addActionListener(this);
 
         //Add components to frame
         frame.add(userLabel);
@@ -86,5 +81,14 @@ public class HomeFrame implements ActionListener {
                 postIdButton.setText("Get post");
             }
         }
+        else if(e.getSource()==addPostButton){
+            
+            new MakePostFrame(userID);
+            frame.setVisible(false);
+            frame.dispose(); 
+
+        }
     }
+
+
 }
