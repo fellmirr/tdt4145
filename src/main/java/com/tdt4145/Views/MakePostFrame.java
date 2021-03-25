@@ -95,13 +95,13 @@ public class MakePostFrame implements ActionListener {
         boolean response = PostsBLO.MakePost(tagTextArea.getText(), this.userID, postTextArea.getText(),folderTextArea.getText(),threadTextArea.getText());
 
         if (response == true) {
-//            Make post successfull
+            // Make post successfull
             System.out.println("Post successfully added to DB");
             new HomeFrame(userID);
             frame.setVisible(false);
             frame.dispose();
         } else {
-//            Make post unsuccesfull
+            // Make post unsuccesfull
             showMessageDialog(null, String.format("You must fill out all the boxes"));
             postButton.setText("Post");
         }
