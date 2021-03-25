@@ -1,6 +1,7 @@
 package com.tdt4145.Views;
 
 import com.tdt4145.BLO.CoursesBLO;
+import com.tdt4145.BLO.ThreadsBLO;
 import com.tdt4145.Models.Course;
 import com.tdt4145.Models.Folder;
 import com.tdt4145.Models.ListMode;
@@ -310,10 +311,10 @@ public class HomeFrame {
 
     private void setListThreads(int folderId) {
         listModel.clear();
-        List<Thread> folderThreads = CoursesBLO.GetThreads(folderId);
+        List<Thread> folderThreads = ThreadsBLO.GetThreads(folderId);
 
         for (int i = 0; i < folderThreads.size(); i++) {
-            listModel.addElement(folderThreads.get(i).Name);
+            listModel.addElement(folderThreads.get(i).ThreadName);
         }
 
         listIds = folderThreads

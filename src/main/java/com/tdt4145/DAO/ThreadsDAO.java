@@ -2,21 +2,23 @@ package com.tdt4145.DAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import com.tdt4145.Models.Thread;
 
 import com.tdt4145.Models.Post;
 
 public class ThreadsDAO extends Database {
+    static private Database db = Database.getInstance();
+
     public static int addThread(String threadName, int folderID) { 
         int response = -1;
         try {
-            PreparedStatement regStatement = conn.prepareStatement("INSERT INTO Threads(FolderID,ThreadName) VALUES" + " ( (?), (?))",Statement.RETURN_GENERATED_KEYS);
-            regStatement.setInt(1, folderID);
-            regStatement.setString(2, threadName);
-            regStatement.executeUpdate();
-            ResultSet result = regStatement.getGeneratedKeys();
+            PreparedStatement stmt = db.prepare("INSERT INTO Threads(FolderID,ThreadName) VALUES" + " ( (?), (?))");
+            stmt.setInt(1, folderID);
+            stmt.setString(2, threadName);
+            stmt.executeUpdate();
+            ResultSet result = stmt.getGeneratedKeys();
             if(result.next()){
                 response = result.getInt(1);
             }
@@ -28,7 +30,6 @@ public class ThreadsDAO extends Database {
 
     public static List<Post> getThreadPosts(int threadId) {
         List<Post> resultList = new ArrayList<Post>();
-        Database db = Database.getInstance();
 
         try {
             ResultSet result = db.query(String.format("SELECT * FROM Posts WHERE ThreadID = %s", threadId));
@@ -40,6 +41,25 @@ public class ThreadsDAO extends Database {
         }
 
         return resultList;
+    }
+
+    public static List<Thread> GetThreads(int folderId) {
+        ResultSet result = db.query("SELECT ThreadID, FolderID ThreadName FROM Threads WHERE FolderID = " + folderId);
+        try {
+            List<Thread> thread = new ArrayList<Thread>();
+
+            while(result.next()) {
+                thread.add(new Thread(
+                    result.getInt("ThreadID"),
+                    result.getInt("FolderID"),
+                    result.getString("ThreadName")));
+            }
+
+            return thread;
+        } catch (Exception e) {
+            System.out.println("Failed to fetch row from result set");
+            return null;
+        }
     }
 
     /**

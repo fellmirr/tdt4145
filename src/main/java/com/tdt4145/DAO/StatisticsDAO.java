@@ -9,9 +9,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class StatisticsDAO {
+    static private Database db = Database.getInstance();
+
+    /**
+     * Calculates statistics on the Users in the database.
+     * @return Returns an object with a list of all the users, how many posts they've viewed
+     * and how many posts they've liked
+     */
     public static StatisticsList GetStatistics() {
         List<StatisticsItem> temp = new ArrayList<>();
-        Database db = Database.getInstance();
         ResultSet result = db.query("SELECT	Email, COUNT(DISTINCT UsersViewedPosts.PostID) AS PostsViewed, " +
                 "COUNT(DISTINCT Posts.PostID) AS PostsCreated " +
                 "FROM	(Users LEFT OUTER JOIN UsersViewedPosts ON Users.UserID=UsersViewedPosts.UserID) " +

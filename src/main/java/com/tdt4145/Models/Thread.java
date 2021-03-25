@@ -2,12 +2,13 @@ package com.tdt4145.Models;
 
 public class Thread {
     public int ThreadID;
-    public String Name;
+    public int FolderID;
+    public String ThreadName;
 
-    public Thread(int threadId, String name) {
-        //TODO: Add Terms as input
-        this.ThreadID = threadId;
-        this.Name = name;
+    public Thread(int threadID, int folderID, String threadName){
+        ThreadID = threadID;
+        FolderID = folderID;
+        ThreadName = threadName;
     }
 
     public int getId() {

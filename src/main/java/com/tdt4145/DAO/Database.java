@@ -13,7 +13,7 @@ import java.sql.*;
 
 public class Database {
     private static Database dbObject;
-    protected static Connection conn;
+    private static Connection conn;
     
     public Database() {
         connect();
@@ -43,6 +43,26 @@ public class Database {
             return result;
         } catch(Exception e) {
             System.out.println("Failed to execute sql statment");
+            System.out.println(sql);
+            return null;
+        }
+    }
+
+    /**
+     * Creates a prepared statement for a given
+     * SQL string and returns it.
+     * 
+     * Use .setInt, .setString etc. methods to set the values
+     * Then call .execute() to execute the query
+     * 
+     * @param sql The query to run against the database
+     * @return The PreparedStatement object.
+     */
+    public PreparedStatement prepare(String sql) {
+        try {
+            return conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        } catch(Exception e) {
+            System.out.println("Failed to prepare sql statment");
             System.out.println(sql);
             return null;
         }
