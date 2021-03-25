@@ -17,4 +17,3 @@ public final class App {
         new LoginFrame();
     }
 }
-

@@ -6,11 +6,16 @@ import java.sql.PreparedStatement;
 public class FoldersDAO {
     static private Database db = Database.getInstance();
 
+    /**
+     * Fetches the folder ID of a given folder
+     * @param folderName
+     * @return The folder ID if found, -1 otherwise
+     */
     public static int getFolderID(String folderName){
         int folderID = -1; 
         try{
             ResultSet result = db.query("SELECT FolderID from Folders WHERE FolderName =" +'"' + folderName + '"');
-            while(result.next()){
+            if (result.next()) {
                 folderID = result.getInt("FolderID");     
             }
         }          
