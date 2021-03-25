@@ -33,6 +33,7 @@ public class HomeFrame {
      */
     static JButton searchButton = new JButton("Search");
     static JButton statisticsButton = new JButton("Statistics");
+    static JButton makePostButton = new JButton("Create post");
 
     /**
      * Main list
@@ -82,7 +83,15 @@ public class HomeFrame {
             }
         });
 
-        statisticsButton.setBounds(140, 310, 120, 36);
+        makePostButton.setBounds(140, 310, 120, 36);
+        makePostButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MakePostFrame(userID);
+            }
+        });
+
+        statisticsButton.setBounds(280, 310, 120, 36);
         statisticsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -200,6 +209,7 @@ public class HomeFrame {
 
         //Add components to frame
         frame.add(searchButton);
+        frame.add(makePostButton);
         if (user.Role == UserRole.Instructor) {
             frame.add(statisticsButton);
         }
@@ -334,13 +344,6 @@ public class HomeFrame {
         } else {
             breadCrumbFolderArrow.setVisible(false);
             activeFolderBreadcrumb.setVisible(false);
-        }
-        else if(e.getSource()==addPostButton){
-            
-            new MakePostFrame(userID);
-            frame.setVisible(false);
-            frame.dispose(); 
-
         }
     }
 }
